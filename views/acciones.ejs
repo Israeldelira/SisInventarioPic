@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Entradas y Salidas</title>
+    <%- include("partials/head") %>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+        <link rel="stylesheet" href="assets/css/menu.css">
+
+
+</head>
+
+<body>
+
+    <%- include("partials/menu") %>
+        <div class="alertas-diseño">
+            <% if(typeof errors != 'undefined') {%>
+                <% errors.forEach(function(error) { %>
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <%= error.msg %>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                    </div>
+                    <% }); %>
+                        <% } %>
+
+                            <% if(success_msg != '') { %>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <%= success_msg %>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+                                </div>
+                                <% } %>
+
+                                    <% if(error_msg != '') { %>
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            <%= error_msg %>
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+                                        </div>
+                                        <% } %>
+
+                                            <% if(error != '') { %>
+                                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                                    <%= error %>
+                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+                                                </div>
+                                                <% } %>
+        </div>
+        <div class="row">
+
+            <div class="col-md-3">
+
+
+
+                <button onclick="mostrar()" type="button" class="btn btn-primary ">
+                    <span>
+                        <i class="fa fa-plus-circle"></i>
+                    </span>
+                    Agregar entrada
+                </button>
+
+            </div>
+
+            <br>
+            <div class="col-md-3">
+                <button onclick="mostrar2()" type="button" class="btn btn-primary ">
+                                <span>
+                                    <i class="fa fa-minus-circle"></i>
+                                </span>
+                                Agregar Salida
+                            </button>
+
+            </div>
+
+        </div>
+
+
+        <br>
+        <div id="alerta">
+
+
+            <div class="row ">
+                <div class="card-body">
+                    <form action="/agregarEntrada" method="GET" enctype="multipart/form-data">
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputDescripcion">Nombre del articulo</label>
+                                <select class="selectpicker form-control" name="nombre" id="nombre">
+                                        <% articulos.forEach(function(articulo) { %>
+                                            <option value='<%=articulo.nombre %>'>
+                                                <%=articulo.nombre %>
+                                            </option>
+                                            <%}) %>
+                                        </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputModelo">Cantidad</label>
+                                <input type="number" class="form-control validar" id="cantidad" name="cantidad" placeholder="Ingresa la cantidad" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success ">
+          Agregar Entrada
+        </button>
+                        </div>
+                    </form>
+
+                </div>
+
+
+            </div>
+
+            <!-- ---------------------------------------- FIN ALERTA ----------------------------------- -->
+        </div>
+        <br>
+        <div id="alerta2">
+
+
+            <div class="row ">
+                <div class="card-body">
+                    <form action="/agregarSalida" method="GET" enctype="multipart/form-data">
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputDescripcion">Nombre del articulo</label>
+                                <select class="selectpicker form-control" name="nombre" id="nombre">
+                                        <% articulos.forEach(function(articulo) { %>
+                                            <option value='<%=articulo.nombre %>'>
+                                                <%=articulo.nombre %>
+                                            </option>
+                                            <%}) %>
+                                        </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputModelo">Cantidad</label>
+                                <input type="number" class="form-control validar" id="cantidad" name="cantidad" placeholder="Ingresa la cantidad" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputDescripcion">Proyecto donde se requirio</label>
+                                <select class="selectpicker form-control" name="proyecto" id="nombre">
+                                        <% proyectos.forEach(function(proyecto) { %>
+                                            <option value='<%=proyecto._id %>'>
+                                                <%=proyecto.nombreProyecto %>
+                                            </option>
+                                            <%}) %>
+                                        </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputModelo">Descripcion de la salida</label>
+                                <input type="text" class="form-control" id="descSalida" name="descSalida" placeholder="Ingresa la descripcion" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success ">
+                                Agregar Salida
+                              </button>
+                    </form>
+
+                </div>
+
+
+            </div>
+
+            <!-- ---------------------------------------- FIN ALERTA ----------------------------------- -->
+        </div>
+
+        <br>
+        <!-- ---------------------------------------- FIN ALERTA ----------------------------------- -->
+
+
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="thead">
+                    <tr>
+
+                        <th scope="col">Id Articulo</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Cantidad Actual</th>
+
+                        <th scope="col">Fecha de registro</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% articulos.forEach(function(articulo) { %>
+                        <tr>
+
+                            <td>
+                                <%= articulo._id %>
+                            </td>
+                            <td>
+                                <%= articulo.nombre %>
+                            </td>
+
+                            <td>
+                                <%= articulo.cantidad %>
+                            </td>
+
+
+                            <td>
+                                <%= format(articulo.created_at) %>
+                            </td>
+                            <td>
+
+
+                                <a href="/delArticulo/<%= articulo._id %>" class="borrar btn btn-sm btn-danger">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                          </svg>
+
+                                </a>
+                                <a href="/file/<%= articulo._id %>" class="btn btn-primary btn-sm"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                          </svg></a>
+
+                            </td>
+
+
+                            <% }) %>
+
+                        </tr>
+
+                </tbody>
+            </table>
+        </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script type="text/javascript ">
+            $(document).ready(function() {
+
+
+                $('#sidebarCollapse').on('click', function() {
+                    $('#sidebar, #content').toggleClass('active');
+                    $('.collapse.in').toggleClass('in');
+                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                });
+            });
+            window.addEventListener("load", mostrar);
+            window.addEventListener("load", mostrar2);
+
+            function mostrar() {
+                var x = document.getElementById('alerta');
+                if (x.style.display === 'none') {
+                    x.style.display = 'block';
+                } else {
+                    x.style.display = 'none';
+                }
+            }
+
+            function mostrar2() {
+                var y = document.getElementById('alerta2');
+                if (y.style.display === 'none') {
+                    y.style.display = 'block';
+                } else {
+                    y.style.display = 'none';
+                }
+            }
+            //SOLO NUMEROS
+            $(function() {
+                $(".validar").keydown(function(event) {
+                    //alert(event.keyCode);
+                    if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105) && event.keyCode !== 190 && event.keyCode !== 110 && event.keyCode !== 8 && event.keyCode !== 9) {
+                        return false;
+                    }
+                });
+            });
+        </script>
+</body>
+
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Inicio</title>
+    <%- include("partials/head") %>
+        <!-- Bootstrap CSS CDN -->
+
+
+        <!-- Scrollbar Custom CSS -->
+        <link rel="stylesheet" href="assets/css/menu.css">
+
+</head>
+
+<body>
+
+    <%- include("partials/menu.ejs") %>
+
+        <div class="row">
+            <br>
+            <div class="col-md-3">
+                <button onclick="mostrar()" type="button" class="btn btn-primary ">
+                <span>
+                    <i class="fa fa-plus-circle"></i>
+                </span>
+                Agregar Proyecto
+            </button>
+
+            </div>
+
+
+
+
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-4">
+                <form action="/searchProvedor" method="GET" enctype="multipart/form-data">
+                    <div class="input-group">
+
+                        <span class="input-group-btn">
+                        <input class="form-control my-0 py-1" type="text" placeholder="Buscar proyecto" aria-label="Search" id="nombre" name="nombre" required>
+                        <button type="submit" class="btn btn-primary  "><li class="fa fa-search"></li></button>
+                    </span>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        <br>
+        <div id="alerta">
+            <div class="row ">
+                <div class="card-body">
+                    <form action="/regProyecto" method="POST" enctype="multipart/form-data">
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputNombre">Nombre del proyecto</label>
+                                <input type="text" class="form-control" id="provedor" name="nombreProyecto" placeholder="Ingresa el nombre del proyecto" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputModelo">Empresa</label>
+                                <input type="text" class="form-control" id="direccion" name="empresa" placeholder="Ingresa la empresa" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+
+                            <div class="form-group col-md-4">
+                                <label for="start">Fecha de inicio</label>
+                                <input type="date" id="start" name="trip-start" min="2020-01-01" max="2025-12-31">
+
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputDescripcion">Añadir imagen</label>
+
+                                <input type="file" name="file" class="custom-file-input" id="inputGroupFile02">
+                                <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Seleccionar archivo</label>
+
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success ">
+                      Registrar Proyecto
+                    </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <br>
+        <div id="price">
+            <% proyectos.forEach(function(proyecto) { %>
+
+                <div class="plan card animated fadeInDown">
+                    <div class="plan-inner">
+                        <div class="entry-title">
+                            <h3>Proyecto</h3>
+                            <div class="price"><img src="<%= proyecto.path  %>" class="card-img-top" height="1000px"><span></span>
+                            </div>
+                        </div>
+                        <div class="entry-content">
+                            <ul>
+                                <li><strong>Nombre:</strong>
+                                    <%= proyecto.nombreProyecto %>
+                                </li>
+                                <li><strong>Empresa:</strong>
+                                    <%= proyecto.empresa %>
+                                </li>
+
+                                <li><strong>Fecha</strong>
+                                    <%= format(proyecto.created_at) %>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="btn-alertaProyecto">
+                            <a href="/detallesProyecto" class="borrar btn btn-sm btn-info bi bi-eye">Ver mas detalles  <i class="fa fa-info-circle" aria-hidden="true"></i></a>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- end of price tab-->
+
+
+
+
+
+
+
+
+                <% }) %>
+        </div>
+        </div>
+
+        <!-- jQuery CDN -->
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <!-- Bootstrap Js CDN -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- jQuery Custom Scroller CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+
+
+                $('#sidebarCollapse').on('click', function() {
+                    $('#sidebar, #content').toggleClass('active');
+                    $('.collapse.in').toggleClass('in');
+                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                });
+            });
+            window.addEventListener("load", mostrar);
+
+
+            function mostrar() {
+                var x = document.getElementById('alerta');
+                if (x.style.display === 'none') {
+                    x.style.display = 'block';
+                } else {
+                    x.style.display = 'none';
+                }
+            }
+        </script>
+</body>
+
+</html>

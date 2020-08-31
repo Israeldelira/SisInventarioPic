@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Inicio</title>
+    <%- include("partials/head") %>
+        <!-- Bootstrap CSS CDN -->
+
+
+        <link rel="stylesheet" href="assets/css/menu.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/menu.css">
+
+</head>
+
+<body>
+
+    <%- include("partials/menu.ejs") %>
+
+
+        <div class="card animated fadeInDown">
+            <img src="<%= articulo.path  %>" class="card-img-top" height="500px">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <%= articulo.title %>
+                </h5>
+                <p class="card-text">
+                    <%= articulo.description %>
+                </p>
+                <p class="card-text">
+                    <%= format(articulo.created_at) %>
+                </p>
+                <a href="/file/<%= articulo._id %>/descargar" class="btn btn-primary"> Descargar Documento</a></href>
+            </div>
+            <a href="/file/<%= articulo._id %>/delete" class="btn btn-danger">Eliminar Documento</a>
+
+        </div>
+        </div>
+
+
+
+
+
+        <!-- jQuery CDN -->
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <!-- Bootstrap Js CDN -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- jQuery Custom Scroller CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+
+
+                $('#sidebarCollapse').on('click', function() {
+                    $('#sidebar, #content').toggleClass('active');
+                    $('.collapse.in').toggleClass('in');
+                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                });
+            });
+        </script>
+</body>
+
+</html>

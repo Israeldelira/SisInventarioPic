@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Articulos</title>
+    <%- include("partials/head") %>
+
+        <link rel="stylesheet" href="assets/css/menu.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+
+
+<body>
+
+    <%- include("partials/menu") %>
+
+        <div class="alertas-diseño">
+            <% if(typeof errors != 'undefined') {%>
+                <% errors.forEach(function(error) { %>
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <%= error.msg %>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                    </div>
+                    <% }); %>
+                        <% } %>
+
+                            <% if(success_msg != '') { %>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <%= success_msg %>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+                                </div>
+                                <% } %>
+
+                                    <% if(error_msg != '') { %>
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            <%= error_msg %>
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+                                        </div>
+                                        <% } %>
+
+                                            <% if(error != '') { %>
+                                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                                    <%= error %>
+                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+                                                </div>
+                                                <% } %>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <button type="button" onclick="mostrar()" class="btn btn-primary">
+                    <i class="fa fa-plus-circle"></i>
+                   
+				Agregar articulo
+            </button>
+
+            </div>
+            <div class="col-md-4">
+                <form action="/searchArticulos" method="GET" enctype="multipart/form-data">
+                    <div class="input-group md-form form-sm form-1 pl-0">
+
+                        <span class="input-group-btn">
+                            <input class="form-control my-0 py-1" type="text" placeholder="Buscar articulo" aria-label="Search" id="nombrer" name="nombre" required>
+                            <button type="submit" class="btn btn-primary  "><li class="fa fa-search"></li></button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <br>
+        <div id="alerta">
+            <div class="row ">
+                <div class="card-body">
+                    <form action="/regArt" method="POST" enctype="multipart/form-data">
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputNombre">Nombre del articulo</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingresa el articulo" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputModelo">Modelo del articulo</label>
+                                <input type="text" class="form-control" id="modelo" name="modelo" placeholder="Ingresa el modelo" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="inputDescripcion">Cantidad </label>
+                                <input type="text" class="form-control validar" id="cantidad" name="cantidad" placeholder="Ingresa la cantidad" required>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label for="inputDescripcion">Categoria del articulo</label>
+
+                                <select class="selectpicker form-control" name="categoria" id="categoria"></select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputDescripcion">Añadir imagen</label>
+                                <div class="custom-file">
+                                    <input type="file" name="file" class="custom-file-input" id="inputGroupFile02" required>
+                                    <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Seleccionar archivo</label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-7">
+                                <label for="inputDescripcion">provedor</label>
+                                <select class="selectpicker form-control" name="provedor" id="provedor">
+                            <% provedores.forEach(function(provedor) { %>
+                                <option value='<%=provedor.nombreProv%>'>
+                                    <%=provedor.nombreProv %>
+                                </option>
+                                <%}) %>
+                            </select>
+                            </div>
+
+                            <div class="form-group col-md-5">
+                                <label for="inputDescripcion">Ubicacion</label>
+                                <input type="text" class="form-control" id="ubicacion" name="ubicacion" placeholder="Ingresa la ubicacion" required>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success ">
+                      Registrar articulo
+                    </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+        <br>
+
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="thead">
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Modelo</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Provedor</th>
+                        <th scope="col">Ubicacion</th>
+                        <th scope="col">Imagen</th>
+                        <th scope="col">Fecha de registro</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <% articulos.forEach(function(articulo) { %>
+                        <tr>
+
+
+                            <td>
+                                <%= articulo.nombre %>
+                            </td>
+
+                            <td>
+                                <%= articulo.modelo %>
+                            </td>
+
+
+                            <td>
+                                <%= articulo.categoria %>
+                            </td>
+                            <td>
+                                <%= articulo.cantidad %>
+                            </td>
+                            <td>
+                                <%= articulo.provedor %>
+                            </td>
+
+
+                            <td>
+                                <%= articulo.ubicacion %>
+                            </td>
+                            <th>
+                                <div class="size-tabla" scope="row">
+
+                                    <img src="<%= articulo.path  %>" class="img-fluid" alt="Responsive Image" width="307" height="240" />
+
+
+
+                                </div>
+                            </th>
+
+
+                            <td>
+                                <%= format(articulo.created_at) %>
+                            </td>
+                            <td>
+
+
+                                <a href="/file/<%= articulo._id %>/delete" class="borrar btn btn-sm btn-danger">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                  </svg>
+
+                                </a>
+
+
+                            </td>
+
+
+                            <% }) %>
+
+
+                        </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        </div>
+
+
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+
+
+                $('#sidebarCollapse').on('click', function() {
+                    $('#sidebar, #content').toggleClass('active');
+                    $('.collapse.in').toggleClass('in');
+                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                });
+            });
+            window.addEventListener("load", mostrar);
+            window.addEventListener("load", mostrarCategoria);
+
+            function mostrar() {
+                var x = document.getElementById('alerta');
+                if (x.style.display === 'none') {
+                    x.style.display = 'block';
+                } else {
+                    x.style.display = 'none';
+                }
+            }
+
+            function mostrarCategoria() {
+                var y = document.getElementById('alerta2');
+                if (y.style.display === 'none') {
+                    y.style.display = 'block';
+                } else {
+                    y.style.display = 'none';
+                }
+            }
+
+            function cargar_provincias() {
+                var array = ["Sensores", "Botones", "Herramienta", "Cable", "Conectores", "PLC", "Tornilleria", "Accesorios", "Modulos", "Equipo"];
+                for (var i in array) {
+                    document.getElementById("categoria").innerHTML += "<option value='" + array[i] + "'>" + array[i] + "</option>";
+
+                }
+            }
+
+            cargar_provincias();
+            $(document).ready(function() {
+                $('.mdb-select').materialSelect();
+            });
+            //SOLO NUMEROS
+            $(function() {
+                $(".validar").keydown(function(event) {
+                    //alert(event.keyCode);
+                    if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105) && event.keyCode !== 190 && event.keyCode !== 110 && event.keyCode !== 8 && event.keyCode !== 9) {
+                        return false;
+                    }
+                });
+            });
+        </script>
+</body>
+
+</html>

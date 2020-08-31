@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Detalles de proyecto</title>
+    <%- include("partials/head") %>
+        <!-- Bootstrap CSS CDN -->
+
+
+        <!-- Scrollbar Custom CSS -->
+        <link rel="stylesheet" href="assets/css/menu.css">
+
+</head>
+
+<body>
+
+    <%- include("partials/menu.ejs") %>
+
+        <div class="row">
+            <br>
+            <div class="col-md-3">
+
+
+
+
+            </div>
+
+
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-8">
+
+                <form action="/searchdetallesProyecto" method="GET" enctype="multipart/form-data">
+                    <div class="input-group">
+
+                        <span class="input-group-btn">
+                                <input class="form-control my-0 py-1" type="text" placeholder="Buscar proyecto" aria-label="Search" id="nombre" name="nombre" required>
+                                <button type="submit" class="btn btn-primary  "><li class="fa fa-search"></li></button>
+                            </span>
+                    </div>
+                </form>
+
+            </div>
+
+
+        </div>
+        <br>
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="thead">
+                    <tr>
+                        <th scope="col">Proyecto</th>
+                        <th scope="col">Articulo</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Descripcion Salida</th>
+                        <th scope="col">Usuario quien registro</th>
+                        <th scope="col">Fecha de baja</th>
+                        <th scope="col">Acciones</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <% proyectos.forEach(function(proyecto) { %>
+
+
+                        <% for(var i=0; i < proyecto.salidas.length; i++ ) { %>
+                            <tr>
+                                <td>
+
+                                    <%= proyecto.nombreProyecto%>
+                                </td>
+                                <td>
+
+                                    <%= proyecto.salidas[i].nombreArticulo %>
+                                </td>
+
+                                <td>
+                                    <%= proyecto.salidas[i].numCantidad %>
+                                </td>
+                                <td>
+                                    <%= proyecto.salidas[i].descSalida %>
+                                </td>
+                                <td>
+                                    <%= proyecto.salidas[i].registroNombre %>
+                                </td>
+                                <td>
+                                    <%= proyecto.salidas[i].fechaBaja %>
+                                </td>
+
+                                <td>
+                                    <a href="/file/<%=proyecto._id %>/<%=proyecto.salidas[i]._id %>/deleteProyecto" class="borrar btn btn-sm btn-danger">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+      </svg>
+
+                                    </a>
+                                </td>
+
+                            </tr>
+                            <% } %>
+                                <% }) %>
+
+                </tbody>
+            </table>
+        </div>
+
+        </div>
+
+        <!-- jQuery CDN -->
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <!-- Bootstrap Js CDN -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- jQuery Custom Scroller CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+
+
+                $('#sidebarCollapse').on('click', function() {
+                    $('#sidebar, #content').toggleClass('active');
+                    $('.collapse.in').toggleClass('in');
+                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                });
+            });
+        </script>
+</body>
+
+</html>
